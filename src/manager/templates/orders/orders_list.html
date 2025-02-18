@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load currency_vnd %}
+
+{% block title %}
+Danh sách thiết bị
+{% endblock title %}
+
+{% block main %}
+<form action="{% url 'manager_orders_create' product_id=product.id %}" method="post">
+  {% csrf_token %}
+  <div class="form-floating mb-3">
+    <input type="text" name="buyer_phone_numbers" class="form-control" id="buyer_phone_numbers" placeholder="" required
+      value="{{ form.buyer_phone_numbers.value|default:'' }}">
+    <label for="buyer_phone_numbers">
+      <i class="fa-solid fa-phone me-1"></i> Số điện thoại người mua
+    </label>
+    {% include 'field_errors.html' with name='buyer_phone_numbers' %}
+  </div>
+  <div class="form-floating mb-3">
+    <input type="text" name="address" class="form-control" id="address" placeholder="" required
+      value="{{ form.address.value|default:'' }}">
+    <label for="address">
+      <i class="fa-solid fa-location-dot me-1"></i> Địa chỉ giao hàng
+    </label>
+    {% include 'field_errors.html' with name='address' %}
+    <button type="submit">Tạo đơn</button>
+</form>
+{% for order in orders %}
+<div>
+  <h3>Thông tin đơn hàng</h3>
+  <p><strong>Số điện thoại người mua:</strong> {{ order.buyer_phone_numbers }}</p>
+  <p><strong>Giá trị đơn hàng:</strong> {{ order.value|currency_vnd }}</p>
+  <p><strong>Trạng thái đơn hàng:</strong> {{ order.status }}</p>
+
+  {% if order.status == 'pending' %}
+  <a href="{% url 'manager_orders_update_status_to_shipping' order_id=order.id %}" class="btn btn-primary">
+    Update to shipping
+  </a>
+
+  {% elif order.status == 'shipping' %}
+  {% if order.status != 'completed' and order.status != 'canceled' %}
+  <a href="{% url 'manager_orders_update_status_to_completed' order_id=order.id %}" class="btn btn-success">
+    Update to complete
+  </a>
+  <a href="{% url 'manager_orders_update_status_to_canceled' order_id=order.id %}" class="btn btn-danger">
+    Cancel order
+  </a>
+  {% endif %}
+
+  {% elif order.status == 'completed' %}
+  <p class="text-success"><strong>Order completed</strong></p>
+
+  {% elif order.status == 'canceled' %}
+  <p class="text-danger"><strong>Order canceled</strong></p>
+  {% endif %}
+
+  <p><strong>Người bán:</strong> {{ order.seller.get_full_name }}</p>
+  <p><strong>Địa chỉ giao hàng:</strong> {{ order.address }}</p>
+</div>
+{% endfor %}
+<a href="{% url 'home' %}" class="btn btn-primary">Quay lại danh sách sản phẩm</a>
+{% endblock main %}
+
+{% block style %}
+<style>
+</style>
+{% endblock style %}
+{% block script %}
+<script>
+</script>
+{% endblock script %}

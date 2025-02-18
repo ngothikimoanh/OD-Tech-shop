@@ -1,0 +1,51 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" type="image/png" href="{% static 'imgs/favicon.ico' %}">
+  <title>{% block title %}{% endblock title %}</title>
+
+  <!-- Bootstrap -->
+  {% include "bootstrap.html" %}
+
+  <!-- Font Awesome -->
+  {% include "font_awesome.html" %}
+
+  <!-- CSS Global -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+  <!-- Template CSS -->
+  {% block style %}{% endblock style %}
+</head>
+
+<body class="bg-body">
+  <!-- Toasts -->
+  {% include "toasts.html" %}
+
+  <!-- Navigation -->
+  <nav class="bg-body-tertiary sticky-top border-bottom shadow-sm">
+    {% block navigation %}{% endblock navigation %}
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    {% block main %}{% endblock main %}
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    {% block footer %}{% endblock footer %}
+  </footer>
+
+  <!-- Scipt global -->
+  <script src="{% static 'js/script.js' %}"></script>
+
+  <!-- Template JavaScipt -->
+  {% block script %}{% endblock script %}
+</body>
+
+</html>

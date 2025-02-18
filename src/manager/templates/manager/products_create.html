@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}
+Tạo sản phẩm mới
+{% endblock title %}
+{% block main %}
+    <div class= "container my-4 px-5 py-4 border bg-body-tertiary rounded shadow-sm load-fade login-container">
+        <div class="text-center mb-5">
+            <h1>Tạo sản phẩm mới</h1>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-floating mb-3">
+                <input list="categories" name="category" class="form-control" id="category" placeholder="Chọn danh mục sản phẩm" required>
+                <datalist id="categories">
+                    <option value="Iphone">Iphone</option>
+                    <option value="Oppo">Oppo</option>
+                    <option value="Samsung">Samsung </option>
+                    <option value="Realme">Realme</option>
+                    <option value="Vivo">Vivo</option>
+                    <option value="Xiaomi">Xiaomi</option>
+                </datalist>
+                <label for="category">
+                    <i class="fa-solid fa-list me-1"></i> Chọn danh mục sản phẩm
+                </label>
+                {% include 'field_errors.html' with name='category' %}
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" name="name" class="form-control" id="name" placeholder="" required
+                    value="{{ form.name.value|default:'' }}">
+                <label for="name">
+                    <i class="fa-brands fa-product-hunt me-1"></i> Tên sản phẩm
+                </label>
+                {% include 'field_errors.html' with name='name' %}
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" name="price" class="form-control" id="price" placeholder="" required
+                    value="{{ form.price.value|default:'' }}">
+                <label for="price">
+                    <i class="fa-regular fa-money-bill-1 me-1"></i> Giá sản phẩm
+                </label>
+                {% include 'field_errors.html' with name='price' %}
+            </div>
+            <div class="d-grid mb-5">
+                <button type="submit" class="btn btn-primary">Lưu</button>
+            </div>
+    </div>
+{% endblock main %}
+{% block style %}
+<style>
+</style>
+{% endblock style %}
+{% block script %}
+<script>
+</script>
+{% endblock script %}

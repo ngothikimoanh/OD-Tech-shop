@@ -1,0 +1,6 @@
+FROM postgres:17-alpine
+
+
+# Turn off apk cache
+# RUN apk add --no-cache \
+#     curl

@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+Trang cá nhân
+{% endblock title %}
+
+{% block navigation %}
+{% include "navigation.html" with path='auth_profile' %}
+{% endblock navigation %}
+
+{% block main %}
+<div class="container my-4 profile-container">
+  {% include 'authentication/layouts/personal_navtabs.html' with path='auth_profile' %}
+
+  <div class="py-4 px-5 border border-top-0 rounded-bottom bg-body-tertiary shadow-sm load-fade">
+    <div class="col mx-auto text-center avatar">
+      <div>
+        <img src="{% static 'imgs/avatar.png' %}" class="rounded-circle w-100">
+      </div>
+      <div class="mt-2">
+        <a href="#">
+          Cập nhật <i class="fa-solid fa-pen-to-square"></i>
+        </a>
+      </div>
+    </div>
+
+    <hr class="my-4">
+    <div>
+      <h5 class="mb-3"><i class="fa-solid fa-user me-1"></i> Thông tin về tài khoản</h5>
+
+      <div class="row mb-3">
+        <div class="col">Loại tài khoản:</div>
+        <div class="col">{{ user.get_role_display }}</div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col">
+          <blockquote class="blockquote">
+            <p class="fs-6">Mật khẩu:</p>
+          </blockquote>
+          <figure>
+            <figcaption class="blockquote-footer">Cách đây {{ user.get_delta_password_change.days }} ngày</figcaption>
+          </figure>
+        </div>
+        <div class="col">
+          <a href="#"><i class="fa-solid fa-key"></i> Mật khẩu mới</a>
+        </div>
+      </div>
+    </div>
+
+    <hr class="my-4">
+
+    <form method="post">
+      {% csrf_token %}
+      <h5 class="mb-3"><i class="fa-solid fa-address-card me-1"></i> Thông tin cá nhân</h5>
+
+      <div class="mb-3">
+        <label for="phone_number_input" class="form-label">Số điện thoại</label>
+        <input class="form-control" name="phone_number" id="phone_number_input" placeholder="0 XXX XXX XXX"
+          pattern="^(\+\d{2}|0)\d{9}$" value="{{ form.phone_number.value|default_if_none:'' }}" required>
+        {% include 'field_errors.html' with name='phone_number' %}
+      </div>
+
+      <div class="mb-3">
+        <label for="email_input" class="form-label">Địa chỉ email</label>
+        <input type="email" class="form-control" name="email" id="email_input" placeholder="email@mail.com"
+          value="{{ form.email.value|default_if_none:'' }}">
+        {% include 'field_errors.html' with name='email' %}
+      </div>
+
+      <div class="row mb-4">
+        <label for="last_name_input" class="form-label">Họ và tên</label>
+
+        <div class="col">
+          <input class="form-control" name="last_name" id="last_name_input" placeholder="Họ"
+            value="{{ form.last_name.value|default_if_none:'' }}">
+          {% include 'field_errors.html' with name='last_name' %}
+        </div>
+
+        <div class="col">
+          <input class="form-control" name="first_name" id="first_name_input" placeholder="Tên"
+            value="{{ form.first_name.value|default_if_none:'' }}">
+          {% include 'field_errors.html' with name='first_name' %}
+        </div>
+      </div>
+
+      <div>
+        <button type="submit" id="update_profile_btn" class="btn btn-primary mb-3" disabled>Cập nhật</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock main %}
+
+{% block style %}
+<style>
+  .nav-link {
+    height: 36px;
+  }
+
+  .profile-container {
+    max-width: 600px;
+  }
+
+  .avatar {
+    max-width: 120px;
+  }
+</style>
+{% endblock style %}
+
+{% block script %}
+<script>
+  const inputs = {
+    phone_number: document.getElementById('phone_number_input'),
+    email: document.getElementById('email_input'),
+    last_name: document.getElementById('last_name_input'),
+    first_name: document.getElementById('first_name_input'),
+  }
+
+  function setUpdateBtnActive() {
+    const update_btn = document.getElementById('update_profile_btn')
+
+    if (
+      inputs.phone_number.value.trim() != "{{ user.phone_number|default_if_none:'' }}"
+      || inputs.email.value.trim() != "{{ user.email|default_if_none:'' }}"
+      || inputs.last_name.value.trim() != "{{ user.last_name|default_if_none:'' }}"
+      || inputs.first_name.value.trim() != "{{ user.first_name|default_if_none:'' }}"
+    )
+      update_btn.disabled = false
+    else
+      update_btn.disabled = true
+  }
+
+  for (const input of Object.values(inputs)) {
+    input.addEventListener('input', setUpdateBtnActive)
+  }
+
+  setUpdateBtnActive()
+</script>
+{% endblock script %}

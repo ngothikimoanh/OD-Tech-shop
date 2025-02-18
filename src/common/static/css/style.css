@@ -1,0 +1,51 @@
+html {
+	font-size: 14px;
+	min-width: 375px;
+}
+
+[data-bs-theme=light] {
+	--bs-body-bg-rgb: 248, 249, 250;
+	--bs-tertiary-bg-rgb: 255, 255, 255;
+}
+
+.load-fade {
+	animation: fade 0.2s ease-in-out;
+}
+
+@keyframes fade {
+	from {
+		opacity: 0;
+		transform: translateY(2px);
+	}
+}
+
+.search-form {
+	max-width: 380px;
+}
+
+.search-input {
+	height: 40px;
+}
+
+.brand {
+	height: 40px;
+	width: 40px
+}
+
+.toast-container {
+	padding-top: 60px;
+}
+
+@media screen and (max-width: 992px) {
+	.web-lg {
+		display: none;
+	}
+
+	.web-sm {
+		display: flex !important;
+	}
+
+	.toast-container {
+		padding-top: 110px;
+	}
+}

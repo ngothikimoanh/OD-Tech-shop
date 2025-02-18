@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load currency_vnd %}
+
+{% block title %}
+Danh sách sản phẩm
+{% endblock title %}
+
+{% block navigation %}
+{% include "navigation.html" with path='manager_tool' %}
+{% endblock navigation %}
+
+{% block main %}
+<div class="container my-4 px-5 py-4 border bg-body-tertiary rounded shadow-sm load-fade login-container">
+	<div class="text-center mb-5">
+		<h1>Danh sách sản phẩm</h1>
+	</div>
+	<div class="list-group">
+		{% for product in products %}
+		<div class="mb-3 ">
+			<img class="product-thumbnail-image"
+				src="{% if product.thumbnail_image %}{{ product.thumbnail_image.url }}{% else %}{% static 'imgs/default_product.png' %}{% endif %}"
+				alt="Hình ảnh sản phẩm">
+		</div>
+		<div class="list-group-item">
+			<h5 class="mb-1">{{ product.category }} {{ product.name }}</h5>
+			<p class="mb-1">{{ product.price|currency_vnd }}</p>
+		</div>
+		<div>
+			<a href="{% url 'manager_products_create_attributes' product_id=product.id %}" class="btn btn-info">Chỉnh sửa
+				thuộc
+				tính</a>
+		</div>
+		<div>
+			<a href="{% url 'manager_devices_list' product_id=product.id %}" class="btn btn-primary">Danh sách thiết bị</a>
+		</div>
+		<div class="mt-3">
+			<a href="{% url 'manager_products_update' product_id=product.id %}" class="btn btn-secondary">Chỉnh sửa sản
+				phẩm</a>
+		</div>
+		<div>
+			<a href="{% url 'manager_products_delete' product_id=product.id %}" class="btn btn-danger">Xóa sản phẩm
+			</a>
+		</div>
+		{% endfor %}
+	</div>
+	<div class="mt-5">
+		<a href="{% url 'manager_products_create' %}" class="btn btn-primary">Thêm sản phẩm </a>
+	</div>
+</div>
+{% endblock main %}

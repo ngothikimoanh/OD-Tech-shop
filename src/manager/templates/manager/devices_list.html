@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}
+Danh sách thiết bị
+{% endblock title %}
+
+{% block main %}
+Theo dõi thiết bị của sản phẩm <br> {{ form.errors }}
+<form action="{% url 'manager_devices_create' product_id=product.id %}" method="post">
+  {% csrf_token %}
+  <input name="imei">
+  <button type="submit">Thêm thiết bị</button>
+</form>
+
+{% for device in devices %}
+<div>
+  {{ device.sku }} - {{ device.imei }}
+</div>
+{% endfor %}
+
+<a href="{% url 'manager_products_list' %}" class="btn btn-primary">Quay lại danh sách sản phẩm</a>
+
+{% endblock main %}

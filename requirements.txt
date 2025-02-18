@@ -1,0 +1,14 @@
+# Django
+django
+Pillow
+
+# Postgresql
+psycopg2-binary
+
+# Dot enviroment
+python-dotenv
+
+# Google API
+google-auth
+google-auth-oauthlib
+google-auth-httplib2

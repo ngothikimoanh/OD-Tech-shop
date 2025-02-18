@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}
+Tạo nhân viên mới
+{% endblock title %}
+
+{% block main %}
+
+<form action="{% url 'manager_employees_create' %}" method="post">
+  {% csrf_token %}
+  <input name="phone_number">
+  <button type="submit">Thêm nhân viên</button>
+</form>
+
+{% for employee in employees %}
+<div>
+  {{ user.phone_number }} - {{ user.email}} - {{ user.name }}
+</div>
+{% endfor %}
+
+{% endblock main %}

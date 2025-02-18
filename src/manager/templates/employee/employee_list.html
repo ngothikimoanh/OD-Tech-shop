@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load currency_vnd %}
+
+{% block title %}
+Danh sách nhân viên
+{% endblock title %}
+
+{% block navigation %}
+{% include "navigation.html" with path='manager_tool' %}
+{% endblock navigation %}
+
+{% block main %}
+<div>
+  <a href="{% url 'manager_employees_create' %}" class="btn btn-primary">Tạo nhân viên mới</a>
+</div>
+{% endblock main %}

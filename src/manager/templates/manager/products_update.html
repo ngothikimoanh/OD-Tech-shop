@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load currency_vnd %}
+
+{% block title %}
+Danh sách sản phẩm
+{% endblock title %}
+
+{% block navigation %}
+{% include "navigation.html" with path='manager_tool' %}
+{% endblock navigation %}
+
+{% block main %}
+<div class="container my-4 px-5 py-4 border bg-body-tertiary rounded shadow-sm load-fade login-container">
+	<div class="text-center mb-5">
+		<h1>Cập nhật sản phẩm</h1>
+	</div>
+	<form method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+		<div class="mb-3">
+			<label for="category" class="form-label">Chọn danh mục sản phẩm</label>
+			<input list="categories" name="category" class="form-control" id="category" placeholder="Chọn danh mục sản phẩm"
+				required value="{{ form.category.value|default:'' }}">
+			<datalist id="categories">
+				<option value="Iphone">Iphone</option>
+				<option value="Oppo">Oppo</option>
+				<option value="Samsung">Samsung </option>
+				<option value="Realme">Realme</option>
+				<option value="Vivo">Vivo</option>
+				<option value="Xiaomi">Xiaomi</option>
+			</datalist>
+			{% include 'field_errors.html' with name='category' %}
+			<div class="mb-3">
+				<label for="name" class="form-label">Tên sản phẩm</label>
+				<input type="text" class="form-control" id="name" name="name" value="{{ form.name.value|default:'' }}">
+				{% include 'field_errors.html' with name='name' %}
+			</div>
+			<div class="mb-3">
+				<label for="price" class="form-label">Giá sản phẩm</label>
+				<input type="number" class="form-control" id="price" name="price" value="{{ form.price.value|default:'' }}">
+				{% include 'field_errors.html' with name='price' %}
+			</div>
+
+			<div class="mb-3 ">
+				<img class="product-thumbnail-image"
+					src="{% if product.thumbnail_image %}{{ product.thumbnail_image.url }}{% else %}{% static 'imgs/default_product.png' %}{% endif %}"
+					alt="Hình ảnh sản phẩm">
+				<a href="{% url 'manager_products_update_remove_thumbnail' product_id=product.id %}" class="btn btn-danger">Xóa
+					hình ảnh</a>
+				<input type="file" accept="image/*" class="form-control" id="thumbnail_image" name="thumbnail_image"
+					value="{{ form.thumbnail_image.value|default:'' }}">
+				{% include 'field_errors.html' with name='thumbnail_image' %}
+			</div>
+			<div class="text-center mt-4">
+				<button type="submit" class="btn btn-primary">Cập nhật</button>
+			</div>
+	</form>
+</div>
+{% endblock main %}
+
+{% block style %}
+<style>
+	.product-thumbnail-image {
+		height: 200px;
+	}
+</style>
+{% endblock style %}

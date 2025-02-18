@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load currency_vnd %}
+
+{% block title %}
+OD Tech Shop
+{% endblock title %}
+
+{% block navigation %}
+{% include "navigation.html" with path='home' %}
+{% endblock navigation %}
+
+{% block main %}
+<div class="mt-5 d-flex justify-content-center">
+  <a href="{% url 'manager_orders_create' product_id=product.id %}" class="btn btn-primary">Tạo đơn </a>
+</div>
+<div class="container my-4 px-5 py-4 border bg-body-tertiary rounded shadow-sm load-fade login-container">
+  <div class="text-center mb-5">
+    <h1>Chi tiết sản phẩm</h1>
+  </div>
+  <div class="product-detail">
+    <div class="mb-3">
+      <img class="product-thumbnail-image"
+        src="{% if product.thumbnail_image %}{{ product.thumbnail_image.url }}{% else %}{% static 'imgs/default_product.png' %}{% endif %}"
+        alt="Hình ảnh sản phẩm">
+    </div>
+    <div class="list-group-item">
+      <h5 class="mb-1">{{ product.category }} {{ product.name }}</h5>
+      <p class="mb-1">{{ product.price|currency_vnd }}</p>
+      <p class="mb-1">{{ product.description }}</p>
+    </div>
+    <ul>
+      {% for product_attribute in product_attributes %}
+      <li>{{ product_attribute.attribute.name }}: {{ product_attribute.value }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock main %}

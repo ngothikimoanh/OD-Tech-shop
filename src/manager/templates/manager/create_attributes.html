@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}
+Tạo thuộc tính mới
+{% endblock title %}
+
+{% block main %}
+<div class="container my-4 px-5 py-4 border bg-body-tertiary rounded shadow-sm load-fade login-container">
+  <div class="text-center mb-5">
+    <h1>Tạo thuộc tính mới</h1>
+  </div>
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-floating mb-3">
+      <input type="text" name="attribute" class="form-control" id="attribute" placeholder="" required
+        value="{{ form.attribute.value|default:'' }}">
+      <label for="attribute">
+        <i class="fa-solid fa-layer-group me-1"></i> Thuộc tính
+      </label>
+      {% include 'field_errors.html' with name='attribute' %}
+    </div>
+    <div id="attributes-container">
+      <div class="form-floating mb-3 attribute-item">
+        <input type="text" name="value" class="form-control" id="value" placeholder="" required
+          value="{{ form.value.value|default:'' }}">
+        <label for="value">
+          <i class="fa-brands fa-product-hunt me-1"></i> Giá trị
+        </label>
+        {% include 'field_errors.html' with name='value' %}
+      </div>
+    </div>
+    <div class="d-grid mb-5">
+      <button type="submit" class="btn btn-primary"
+        formaction="{% url 'manager_products_create_attributes' product_id=product.id %}">Lưu</button>
+    </div>
+    <div class="d-grid mb-5">
+      <a href="{% url 'manager_products_list' %}" class="btn btn-secondary">Quay lại trang danh sách</a>
+    </div>
+    <div class="mt-4">
+      <h2>Danh sách thuộc tính đã lưu</h2>
+      <ul>
+        {% for product_attribute in product_attributes %}
+        <li>{{ product_attribute.attribute.name }}: {{ product_attribute.value }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </form>
+</div>
+
+{% endblock main %}
